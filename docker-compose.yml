@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  clientauthorization:
+    image: ${DOCKER_REGISTRY-}clientauthorization
+    build:
+      context: .
+      dockerfile: ClientAuthorization/Dockerfile
+
+  paymentprocessor:
+    image: ${DOCKER_REGISTRY-}paymentprocessor
+    build:
+      context: .
+      dockerfile: PaymentProcessor/Dockerfile
+
