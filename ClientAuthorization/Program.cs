@@ -1,5 +1,10 @@
+using ClientAuthorization.Modules;
+using Hellang.Middleware.ProblemDetails;
+
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.RegisterModules();
+builder.Services.AddProblemDetails();
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -16,7 +21,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
