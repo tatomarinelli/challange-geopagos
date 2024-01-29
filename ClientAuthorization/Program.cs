@@ -1,5 +1,13 @@
-var builder = WebApplication.CreateBuilder(args);
+using ClientAuthorization.Modules;
+using Hellang.Middleware.ProblemDetails;
+using ServiceMiddlewares.Middlewares;
 
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddTransient<CustomExceptionHandlerMiddleware>();
+builder.Services.AddTransient<CustomResponseWrapperMiddleware>();
+
+builder.Services.RegisterModules();
+builder.Services.AddProblemDetails();
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -16,9 +24,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
+app.UseProblemDetails();
+app.UseMiddleware<CustomExceptionHandlerMiddleware>();
+app.UseMiddleware<CustomResponseWrapperMiddleware>();
 
 app.MapControllers();
 
