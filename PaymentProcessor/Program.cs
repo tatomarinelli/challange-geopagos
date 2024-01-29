@@ -1,8 +1,15 @@
+using Hellang.Middleware.ProblemDetails;
+using Microsoft.AspNetCore.Diagnostics;
 using PaymentProcessor.Modules;
+using ServiceMiddlewares.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddTransient<CustomExceptionHandlerMiddleware>();
+builder.Services.AddTransient<CustomResponseWrapperMiddleware>();
+
 builder.Services.RegisterModules();
+builder.Services.AddProblemDetails();   
 
 // Add services to the container.
 
@@ -20,9 +27,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
+app.UseProblemDetails();
+app.UseMiddleware<CustomExceptionHandlerMiddleware>();
+app.UseMiddleware<CustomResponseWrapperMiddleware>();
 
 app.MapControllers();
 
