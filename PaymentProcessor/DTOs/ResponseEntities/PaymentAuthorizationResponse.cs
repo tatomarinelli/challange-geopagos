@@ -1,4 +1,6 @@
-﻿namespace PaymentProcessor.DTOs.ResponseEntities
+﻿using Newtonsoft.Json;
+
+namespace PaymentProcessor.DTOs.ResponseEntities
 {
     public class PaymentAuthorizationResponse
     {
@@ -6,7 +8,7 @@
         {
             this.Authorized = isInt;
         }
-
+        [JsonProperty("authorized")]
         public bool Authorized { get; set; }
     }
 }

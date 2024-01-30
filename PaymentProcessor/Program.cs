@@ -5,8 +5,8 @@ using ServiceMiddlewares.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddTransient<CustomExceptionHandlerMiddleware>();
 builder.Services.AddTransient<CustomResponseWrapperMiddleware>();
+builder.Services.AddTransient<CustomExceptionHandlerMiddleware>();
 
 builder.Services.RegisterModules();
 builder.Services.AddProblemDetails();   
@@ -31,8 +31,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseAuthorization();
 app.UseProblemDetails();
-app.UseMiddleware<CustomExceptionHandlerMiddleware>();
 app.UseMiddleware<CustomResponseWrapperMiddleware>();
+app.UseMiddleware<CustomExceptionHandlerMiddleware>();
 
 app.MapControllers();
 

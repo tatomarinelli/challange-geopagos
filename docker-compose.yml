@@ -13,3 +13,16 @@ services:
       context: .
       dockerfile: PaymentProcessor/Dockerfile
 
+  database:  
+    container_name: Database  
+    image: postgres:15
+    restart: always
+    environment:  
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres  
+      POSTGRES_DB: geopagos_db  
+    ports:  
+      - "5432:5432"
+    volumes:
+      - ./Database/dump_structure/dump.sql:/docker-entrypoint-initdb.d/dummy_dump.sql
+
