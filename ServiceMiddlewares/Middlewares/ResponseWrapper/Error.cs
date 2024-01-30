@@ -5,13 +5,18 @@ namespace ServiceMiddlewares.Middlewares.ResponseWrapper
 {
     public class CustomError
     {
+        public CustomError() { }
         public CustomError(Exception ex, int statusCode)
         {
-            Error.Title = "Internal error";
-            Error.Detail = ex.Message;
-            Error.Status = statusCode;
+            Title = "Internal error";
+            Detail = ex.Message;
+            Status = statusCode;
         }
-        [JsonProperty("error")]
-        public ProblemDetails Error { get; set; } = new ProblemDetails();
+        [JsonProperty("title")]
+        public string? Title { get; set; }
+        [JsonProperty("detail")]
+        public string? Detail { get; set; }
+        [JsonProperty("status")]
+        public int? Status { get; set; }
     }
 }
