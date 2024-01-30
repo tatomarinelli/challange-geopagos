@@ -15,7 +15,7 @@ namespace ServiceMiddlewares.Middlewares
             // Using MemoryStream to hold Controller Response
             using var memoryStream = new MemoryStream();
             context.Response.Body = memoryStream;
-
+        
             // Passing call to Controller
             await next(context);
 
@@ -28,18 +28,29 @@ namespace ServiceMiddlewares.Middlewares
             // Read Memory Stream data to the end
             var readToEnd = new StreamReader(memoryStream).ReadToEnd();
 
-            // Deserializing Controller Response to an object
-            var result = JsonConvert.DeserializeObject(readToEnd);
-           
-            if (context.Response.StatusCode != StatusCodes.Status200OK)
-                throw new Exception((result as Newtonsoft.Json.Linq.JObject)?.GetValue("errors")?.ToString());
-            
 
-            // Invoking Customizations Method to handle Custom Formatted Response
-            var response = ResponseWrapManager.ResponseWrapper(result);
+            // Deserializing Controller Response to an object
+            BaseResponse? result = JsonConvert.DeserializeObject<BaseResponse?>(readToEnd);
+            object? unhandledResult = JsonConvert.DeserializeObject(readToEnd);
+
+            if (context.Response.StatusCode == StatusCodes.Status200OK)
+            {
+                result = ResponseWrapManager.ResponseDataWrapper(unhandledResult);
+            }
+            else
+            {
+                // Unhandled error -> map to a new CustomError using an exception and reading the errors object from net response.
+                // Known response, we map the errors from the service to our wrapper.
+                if (result?.Error == null)
+                {
+                    var ex = new Exception((unhandledResult as Newtonsoft.Json.Linq.JObject)?.GetValue("errors")?.ToString());
+                    result.Error = new CustomError(ex, 500);
+                }
+                result = ResponseWrapManager.ResponseErrorWrapper(result);
+            }
 
             // return response to caller
-            await context.Response.WriteAsync(JsonConvert.SerializeObject(response));
+            await context.Response.WriteAsync(JsonConvert.SerializeObject(result));
         }
     }
 }

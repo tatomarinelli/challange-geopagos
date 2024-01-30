@@ -27,13 +27,17 @@ namespace ServiceMiddlewares.Middlewares
 
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-                CustomError error = new CustomError(ex, context.Response.StatusCode);
+                BaseResponse response = new BaseResponse()
+                {
+                    Data = null,
+                    Error = new CustomError(ex, context.Response.StatusCode)
+                };
+                //CustomError error = new CustomError(ex, context.Response.StatusCode);
 
-                string json = JsonConvert.SerializeObject(error);
+                string json = JsonConvert.SerializeObject(response);
                 context.Response.ContentType = "application/json";
 
                 await context.Response.WriteAsync(json);
-
             }
         }
     }
