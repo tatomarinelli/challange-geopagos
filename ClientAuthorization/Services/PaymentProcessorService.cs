@@ -23,8 +23,8 @@ namespace ClientAuthorization.Services
                 Url = $"http://paymentprocessor/v1/PaymentProcessor/Payment",
             };
 
-            var result = await Execute<AuthorizationResponseAPI, AuthorizationRequestAPI>(requestAPI);
-            return result;
+            var result = await Execute<ApiResponseBase<AuthorizationResponseAPI>, AuthorizationRequestAPI>(requestAPI);
+            return result.Data;
         }
     }
 }

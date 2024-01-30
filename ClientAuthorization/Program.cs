@@ -1,10 +1,16 @@
+using ClientAuthorization.HostedServices;
 using ClientAuthorization.Modules;
 using Hellang.Middleware.ProblemDetails;
 using ServiceMiddlewares.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddTransient<CustomExceptionHandlerMiddleware>();
 builder.Services.AddTransient<CustomResponseWrapperMiddleware>();
+builder.Services.AddTransient<CustomExceptionHandlerMiddleware>();
+
+builder.Services.AddHostedService<ConfirmAuthorizationService>();
+builder.Services.AddSingleton<ConfirmAuthorizationService>();
+builder.Services.AddSingleton<IHostedService>(p => p.GetRequiredService<ConfirmAuthorizationService>());
+
 
 builder.Services.RegisterModules();
 builder.Services.AddProblemDetails();
@@ -28,8 +34,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseAuthorization();
 app.UseProblemDetails();
-app.UseMiddleware<CustomExceptionHandlerMiddleware>();
 app.UseMiddleware<CustomResponseWrapperMiddleware>();
+app.UseMiddleware<CustomExceptionHandlerMiddleware>();
 
 app.MapControllers();
 
