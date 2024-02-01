@@ -25,10 +25,9 @@ namespace ClientAuthorization.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Confirm([FromBody] string id)
+        public ConfirmationResponse Confirm([FromBody] string id)
         {
-            await _AuthorizationBL.Confirm(id);
-            return Ok(200);
+            return _AuthorizationBL.Confirm(id);
         }
         /*
         [HttpPost]

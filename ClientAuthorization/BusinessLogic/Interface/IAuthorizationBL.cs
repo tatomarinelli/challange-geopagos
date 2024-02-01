@@ -7,8 +7,8 @@ namespace ClientAuthorization.BusinessLogic.Interface
     public interface IAuthorizationBL : IModule
     {
         Task<AuthorizationResponse> Payment(AuthorizationRequest request);
-        void Reverse(AuthorizationRequest operationToReverse);
+        void Reverse(string id);
         void Return();
-        Task<string> Confirm(string id);
+        ConfirmationResponse Confirm(string id);
     }
 }

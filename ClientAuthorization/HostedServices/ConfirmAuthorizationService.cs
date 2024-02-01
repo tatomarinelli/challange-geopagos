@@ -1,6 +1,7 @@
 ﻿using ClientAuthorization.BusinessLogic.Interface;
 using ClientAuthorization.DTOs.RequestEntities;
 using ClientAuthorization.HostedServices.Interface;
+using ClientAuthorization.Models.Database;
 
 namespace ClientAuthorization.HostedServices
 {
@@ -18,7 +19,7 @@ namespace ClientAuthorization.HostedServices
         private int executionCount = 0;
         private Timer? _timer = null;
 
-        private Dictionary<string, (AuthorizationRequest, DateTime)> operationDictionary = new Dictionary<string, (AuthorizationRequest, DateTime)>();
+        private Dictionary<string, (OperationLog, DateTime)> operationDictionary = new Dictionary<string, (OperationLog, DateTime)>();
 
         public Task StartAsync(CancellationToken stoppingToken)
         {
@@ -43,7 +44,7 @@ namespace ClientAuthorization.HostedServices
                     {
                         //var dbContext = scope.ServiceProvider.GetRequiredService<MyDbContext>();
                         var AuthorizationBL = scope.ServiceProvider.GetRequiredService<IAuthorizationBL>();
-                        AuthorizationBL.Reverse(operationToReverse);
+                        AuthorizationBL.Reverse(operation.Key);
                         operationDictionary.Remove(operation.Key);
                     }
                 }
@@ -64,12 +65,12 @@ namespace ClientAuthorization.HostedServices
             _timer?.Dispose();
         }
 
-        public void AddOperation(string id, AuthorizationRequest request, DateTime expiresAt)
+        public void AddOperation(string id, OperationLog operation, DateTime expiresAt)
         {
-            operationDictionary.Add(id, new(request, expiresAt));
+            operationDictionary.Add(id, new(operation, expiresAt));
         }
 
-        public AuthorizationRequest? RemoveOperation(string id)
+        public OperationLog? RemoveOperation(string id)
         {
             // TODO: Race condition? Try Catch?
             lock (semaphore)
