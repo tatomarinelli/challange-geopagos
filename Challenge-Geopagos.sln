@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceMiddlewares", "Servi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{5257C3A2-828E-4F28-93D2-16B48220BE9E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{9861A930-09E3-4806-BFBA-63DDCE549016}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{B71067E7-C6B6-41CC-B290-4431EAB14F95}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B71067E7-C6B6-41CC-B290-4431EAB14F95}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B71067E7-C6B6-41CC-B290-4431EAB14F95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9861A930-09E3-4806-BFBA-63DDCE549016}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9861A930-09E3-4806-BFBA-63DDCE549016}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9861A930-09E3-4806-BFBA-63DDCE549016}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9861A930-09E3-4806-BFBA-63DDCE549016}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
