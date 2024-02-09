@@ -110,6 +110,12 @@ Consiste de dos tablas, una de logueo histórico y otra intermedia para las oper
 
 No realicé un volumen, una vez que se mata el contenedor los datos se pierden (Decisión mia para no tener que andar borrando datos en cada prueba)
 
+## XUnit
+
+Para correr los tests utilicé Visual Studio, intenté de todas formas (Ya obsesionado) para poder correrlos en el contenedor y si bien lo logré tuve varios problemas para poder comunicarme con el servicio de Paymentprocessor (Luego de miles de intentos supongo que el problema era que estaba intentando correrlo en el build y debería crear un script para que se haga una vez que los servicios estén levantados).
+
+Levantar el proyecto utilizando docker-compose (no el del visual studio) y luego correr los tests normalmente (Esto va a hacer que los tests corran de forma local y la conexión al servicio de paymentprocessor se haga al contenedor)... no me convence.
+
 ## Que falta?
 
 - Mejores validaciones las request no se están validando, podemos enviar cualquier tipo de cliente o valores negativos.
@@ -124,6 +130,7 @@ No realicé un volumen, una vez que se mata el contenedor los datos se pierden (
 - Constructores vacios.
 - Consistencia en el estilo del código (Variables publicas con mayuscula, privadas con minuscula, readonly e interfaces con guionbajo y minuscula).
 - Coleccion de Postman :D 
+- Mejorar las envs y como se comportan los tests (Hay cosas hardcodeadas que cambian en un lugar y no se encuentran mas).
 ## Como levantarlo?
 
 #### Cargar imagen
