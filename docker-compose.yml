@@ -6,23 +6,28 @@ services:
     build:
       context: .
       dockerfile: ClientAuthorization/Dockerfile
+    env_file:
+        - "./config.env"
+    ports:
+        - "1000:80"
 
   paymentprocessor:
     image: ${DOCKER_REGISTRY-}paymentprocessor
     build:
       context: .
       dockerfile: PaymentProcessor/Dockerfile
+    ports:
+        - "1001:80"
+    env_file:
+        - "./config.env"
 
   database:  
     container_name: Database  
     image: postgres:15
     restart: always
-    environment:  
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres  
-      POSTGRES_DB: geopagos_db  
     ports:  
       - "5432:5432"
+    env_file:
+        - "./config.env"
     volumes:
       - ./Database/dump_structure/dump.sql:/docker-entrypoint-initdb.d/dummy_dump.sql
-

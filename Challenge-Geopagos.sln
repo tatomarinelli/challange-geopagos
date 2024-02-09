@@ -7,13 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentProcessor", "Payment
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientAuthorization", "ClientAuthorization\ClientAuthorization.csproj", "{441D60AF-D2EB-43DB-8DAC-F58602ABCC2D}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "01-docker-compose", "01-docker-compose.dcproj", "{85194333-AA8A-4A61-ABB8-A14D44DDABF1}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceMiddlewares", "ServiceMiddlewares\ServiceMiddlewares.csproj", "{B71067E7-C6B6-41CC-B290-4431EAB14F95}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{5257C3A2-828E-4F28-93D2-16B48220BE9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{9861A930-09E3-4806-BFBA-63DDCE549016}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{9861A930-09E3-4806-BFBA-63DDCE549016}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "01-docker-compose", "01-docker-compose.dcproj", "{85194333-AA8A-4A61-ABB8-A14D44DDABF1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,6 @@ Global
 		{441D60AF-D2EB-43DB-8DAC-F58602ABCC2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{441D60AF-D2EB-43DB-8DAC-F58602ABCC2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{441D60AF-D2EB-43DB-8DAC-F58602ABCC2D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{85194333-AA8A-4A61-ABB8-A14D44DDABF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{85194333-AA8A-4A61-ABB8-A14D44DDABF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{85194333-AA8A-4A61-ABB8-A14D44DDABF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{85194333-AA8A-4A61-ABB8-A14D44DDABF1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B71067E7-C6B6-41CC-B290-4431EAB14F95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B71067E7-C6B6-41CC-B290-4431EAB14F95}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B71067E7-C6B6-41CC-B290-4431EAB14F95}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -41,6 +37,10 @@ Global
 		{9861A930-09E3-4806-BFBA-63DDCE549016}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9861A930-09E3-4806-BFBA-63DDCE549016}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9861A930-09E3-4806-BFBA-63DDCE549016}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85194333-AA8A-4A61-ABB8-A14D44DDABF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85194333-AA8A-4A61-ABB8-A14D44DDABF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85194333-AA8A-4A61-ABB8-A14D44DDABF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85194333-AA8A-4A61-ABB8-A14D44DDABF1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

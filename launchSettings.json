@@ -5,7 +5,8 @@
       "commandVersion": "1.0",
       "serviceActions": {
         "clientauthorization": "StartDebugging",
-        "paymentprocessor": "StartDebugging"
+        "paymentprocessor": "StartDebugging",
+        "tests": "StartDebugging"
       }
     }
   }
