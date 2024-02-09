@@ -58,7 +58,7 @@ namespace ClientAuthorization.BusinessLogic
                 SetOperationPendingConfirmation(operation);
             }
 
-            return new AuthorizationResponse(response);
+            return new AuthorizationResponse(response, operation.OperationId.ToString());
         }
         public void Reverse(string id)
         {
