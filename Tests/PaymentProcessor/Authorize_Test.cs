@@ -8,6 +8,7 @@ namespace Tests.PaymentProcessor
 {
     public class AuthorizationTest
     {
+        
         private const string Filename = "OK_Authorized";
         private readonly PaymentController _paymentController;
         private readonly IPaymentAuthorizationBL _authorizationBL;
@@ -16,7 +17,7 @@ namespace Tests.PaymentProcessor
             _authorizationBL = new PaymentAuthorizationBL();
             _paymentController = new PaymentController(_authorizationBL);
         }
-
+        
         [Theory]
         [MemberData(nameof(OK_Authorized_Dataset))]
         public void AuthorizationOk_Authorized(PaymentAuthorizationRequest request)
@@ -43,7 +44,7 @@ namespace Tests.PaymentProcessor
         }
         public static IEnumerable<object[]> GetDataSet(string filename)
         {
-            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "/PaymentProcessor/Dataset", filename);
+            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "/Dataset/PaymentProcessor/", filename);
             var json = File.ReadAllText(filePath);
             var jobject = JObject.Parse(json);
             var requests = jobject["data"]?.ToObject<IEnumerable<PaymentAuthorizationRequest>>();
