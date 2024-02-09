@@ -6,6 +6,7 @@ namespace Tests.ClientAuthorization.AuthorizationTests
 {
     public class Payment_Test : ClientAuthorizationTestsBase
     {
+        
         [Theory]
         [MemberData(nameof(OK_Authorized_Dataset))]
         public async Task AuthorizationOk_Authorized(AuthorizationRequest request)
@@ -31,7 +32,7 @@ namespace Tests.ClientAuthorization.AuthorizationTests
         }
         public static IEnumerable<object[]> GetDataSet(string filename)
         {
-            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "/ClientAuthorization/AuthorizationTests/Dataset", filename);
+            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "/Dataset/ClientAuthorization/Authorization/", filename);
             var json = File.ReadAllText(filePath);
             var jobject = JObject.Parse(json);
             var requests = jobject["data"]?.ToObject<IEnumerable<AuthorizationRequest>>();

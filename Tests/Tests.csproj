@@ -30,22 +30,28 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="ClientAuthorization\AuthorizationTests\Dataset\NotFound_Confirm.json">
+    <Compile Update="ClientAuthorization\AuthorizationTests\ClientAuthorizationTestsBase.cs">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Dataset\ClientAuthorization\Authorization\NotFound_Confirm.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="ClientAuthorization\AuthorizationTests\Dataset\OK_Confirm.json">
+    <None Update="Dataset\ClientAuthorization\Authorization\OK_Authorized.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="ClientAuthorization\AuthorizationTests\Dataset\OK_Authorized.json">
+    <None Update="Dataset\ClientAuthorization\Authorization\OK_Confirm.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="ClientAuthorization\AuthorizationTests\Dataset\OK_Denied.json">
+    <None Update="Dataset\ClientAuthorization\Authorization\OK_Denied.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="PaymentProcessor\Dataset\OK_Denied.json">
+    <None Update="Dataset\PaymentProcessor\OK_Authorized.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="PaymentProcessor\Dataset\OK_Authorized.json">
+    <None Update="Dataset\PaymentProcessor\OK_Denied.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

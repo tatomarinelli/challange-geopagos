@@ -2,7 +2,7 @@
   "data": [
     {
       "clientID": "string",
-      "clientType": "string",
+      "clientType": "2",
       "cardData": {
         "holderName": "string",
         "type": "string",
