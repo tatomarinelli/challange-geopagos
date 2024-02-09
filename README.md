@@ -27,7 +27,7 @@ El CRON que valida la confirmación de las operaciones se encuentra en el proyec
 
 | Campo | Tipo     | Descripcion                |
 | :-------- | :------- | :------------------------- |
-| `` | `string` | **Required**. Id de la operacion en la BD. Va directamente el string (TODO: Agregar campo ID) |
+| `` | `string` | **Required**. Id de la operacion en la BD (Vuelve en el response de Payment). Va directamente el string (TODO: Agregar campo ID) |
 
 ## Endpoints desarrollados -  PaymentProcessor
 
@@ -136,7 +136,10 @@ Levantar el proyecto utilizando docker-compose (no el del visual studio) y luego
 #### Cargar imagen
 
 ```bash
+WSL-Linux
 $ docker load < challenge_geopagos_docker.tar.gz
+PS
+$ docker load -i challenge_geopagos_docker.tar.gz
 ```
 
 Podemos validarlo:
