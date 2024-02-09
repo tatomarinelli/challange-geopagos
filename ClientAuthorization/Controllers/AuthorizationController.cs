@@ -7,7 +7,7 @@ using ClientAuthorization.BusinessLogic;
 
 namespace ClientAuthorization.Controllers
 {
-    [Route("v1/Client/Authorization/Request/[controller]/[action]")]
+    [Route("v1/Client/[controller]/[action]")]
     [ApiController]
     public class AuthorizationController : ControllerBase
     {
