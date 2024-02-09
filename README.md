@@ -155,6 +155,7 @@ $ docker-compose up
 ... o si se editó el "config.env"
 $ docker-compose up --build
 ```
+(Lamentablemente, no funciona sin internet, el sdk de .NET necesita traer metadata que Microsoft saca seguramente al momento de hacer el save)
 ... comandos útiles:
 ```bash
 $ docker-compose down -v
