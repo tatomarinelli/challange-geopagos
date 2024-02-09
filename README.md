@@ -108,6 +108,8 @@ Usuario: postgres - Contraseña: postgres - Source: geopagos_db
 
 Consiste de dos tablas, una de logueo histórico y otra intermedia para las operaciones pendientes de confirmación (Esta tabla se mantiene sincronizada con el Hosted Service que elimina las operaciones cada X cantidad de tiempo).
 
+No realicé un volumen, una vez que se mata el contenedor los datos se pierden (Decisión mia para no tener que andar borrando datos en cada prueba)
+
 ## Que falta?
 
 - Mejores validaciones las request no se están validando, podemos enviar cualquier tipo de cliente o valores negativos.
@@ -121,3 +123,41 @@ Consiste de dos tablas, una de logueo histórico y otra intermedia para las oper
 - LOGGER, no se inyectó por lo que fui comentando los logueos, horrible.
 - Constructores vacios.
 - Consistencia en el estilo del código (Variables publicas con mayuscula, privadas con minuscula, readonly e interfaces con guionbajo y minuscula).
+- Coleccion de Postman :D 
+## Como levantarlo?
+
+#### Cargar imagen
+
+```bash
+$ docker load < challenge_geopagos_docker.tar.gz
+```
+
+Podemos validarlo:
+
+```bash
+$ docker images
+REPOSITORY            TAG       IMAGE ID       CREATED        SIZE
+clientauthorization   dev       582b1f3cb6c7   44 hours ago   208MB
+paymentprocessor      dev       dbe82d6fc98e   44 hours ago   208MB
+postgres              15        e012816a6967   5 weeks ago    419MB
+```
+
+#### Correr docker-compose:
+```bash
+$ docker-compose up
+... o si se editó el "config.env"
+$ docker-compose up --build
+```
+... comandos útiles:
+```bash
+$ docker-compose down -v
+$ docker stop $(docker ps -a -q)
+$ docker remove $(docker ps -a -q)
+```
+(Si el volumen de la base de datos da error <pasa cuando se baja y sube varias veces> utilizar esos comandos, en ese orden para que el volumen se apague correctamente).
+## Listo!
+
+## URLs 
+- clientauthorization: http://localhost:1000/swagger/index.html
+- paymentprocessor: http://localhost:1001/swagger/index.html
+#
