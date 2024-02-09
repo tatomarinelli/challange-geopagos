@@ -131,6 +131,7 @@ Levantar el proyecto utilizando docker-compose (no el del visual studio) y luego
 - Consistencia en el estilo del código (Variables publicas con mayuscula, privadas con minuscula, readonly e interfaces con guionbajo y minuscula).
 - Coleccion de Postman :D 
 - Mejorar las envs y como se comportan los tests (Hay cosas hardcodeadas que cambian en un lugar y no se encuentran mas).
+- Documentar bien el swagger, request y responses.
 ## Como levantarlo?
 
 #### Cargar imagen
