@@ -1,5 +1,6 @@
 ﻿using ClientAuthorization.DTOs.RequestEntities;
 using ClientAuthorization.DTOs.ResponseEntities;
+using ClientAuthorization.Models.Database;
 using ClientAuthorization.Modules;
 
 namespace ClientAuthorization.BusinessLogic.Interface
@@ -10,5 +11,6 @@ namespace ClientAuthorization.BusinessLogic.Interface
         void Reverse(string id);
         void Return();
         ConfirmationResponse Confirm(string id);
+        List<PendingOperationResponse> GetPendingOperations();
     }
 }

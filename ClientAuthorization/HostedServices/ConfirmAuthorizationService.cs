@@ -1,13 +1,18 @@
 ﻿using ClientAuthorization.BusinessLogic.Interface;
 using ClientAuthorization.DTOs.RequestEntities;
-using ClientAuthorization.HostedServices.Interface;
 using ClientAuthorization.Models.Database;
+using ClientAuthorization.Models.Database.Mappers;
+using ClientAuthorization.Repository.Interface;
+using ClientAuthorization.Services.DTOs.ResponseEntities;
+using System;
+using static ClientAuthorization.Models.Database.DatabaseEnums;
 
 namespace ClientAuthorization.HostedServices
 {
     public class ConfirmAuthorizationService : IHostedService, IDisposable
     {
         private readonly IServiceScopeFactory scopeFactory;
+
         private readonly object semaphore = new object();
 
         public ConfirmAuthorizationService() { }
@@ -30,6 +35,40 @@ namespace ClientAuthorization.HostedServices
             return Task.CompletedTask;
         }
 
+        public Task StopAsync(CancellationToken stoppingToken)
+        {
+            //_logger.LogInformation("Timed Hosted Service is stopping.");
+
+            _timer?.Change(Timeout.Infinite, 0);
+
+            return Task.CompletedTask;
+        }
+
+        public void Dispose()
+        {
+            _timer?.Dispose();
+        }
+
+        public void AddOperation(string id, OperationLog operation, DateTime expiresAt)
+        {
+            operationDictionary.Add(id, new(operation, expiresAt));
+        }
+        public OperationLog RemoveOperation(string id)
+        {
+            // TODO: Test race condition?
+            lock (semaphore)
+            {
+                if (operationDictionary.ContainsKey(id))
+                { 
+                    var operation = operationDictionary[id];
+                    operationDictionary.Remove(id);
+                    return operation.Item1;
+                }
+                // Log warning
+                throw new Exception($"Operation not found {id}");
+            }
+
+        }
         private void CheckExpirationTime(object? state)
         {
             lock (semaphore)
@@ -49,42 +88,6 @@ namespace ClientAuthorization.HostedServices
                     }
                 }
             }
-        }
-
-        public Task StopAsync(CancellationToken stoppingToken)
-        {
-            //_logger.LogInformation("Timed Hosted Service is stopping.");
-
-            _timer?.Change(Timeout.Infinite, 0);
-
-            return Task.CompletedTask;
-        }
-
-        public void Dispose()
-        {
-            _timer?.Dispose();
-        }
-
-        public void AddOperation(string id, OperationLog operation, DateTime expiresAt)
-        {
-            operationDictionary.Add(id, new(operation, expiresAt));
-        }
-
-        public OperationLog? RemoveOperation(string id)
-        {
-            // TODO: Race condition? Try Catch?
-            lock (semaphore)
-            {
-                if (operationDictionary.ContainsKey(id))
-                { 
-                    var operation = operationDictionary[id];
-                    operationDictionary.Remove(id);
-                    return operation.Item1;
-                }
-                // Log warning
-                return null;
-            }
-
         }
     }
 }

@@ -1,8 +1,7 @@
-﻿using ClientAuthorization.BusinessLogic.Interface;
+﻿ using ClientAuthorization.BusinessLogic.Interface;
 using ClientAuthorization.DTOs.RequestEntities;
 using ClientAuthorization.DTOs.ResponseEntities;
 using ClientAuthorization.HostedServices;
-using ClientAuthorization.HostedServices.Interface;
 using ClientAuthorization.Models.Database;
 using ClientAuthorization.Models.Database.Mappers;
 using ClientAuthorization.Modules;
@@ -18,32 +17,18 @@ namespace ClientAuthorization.BusinessLogic
 {
     public class AuthorizationBL : IAuthorizationBL
     {
-        private readonly IPaymentProcessorService _PaymentProcessorService;
-        private readonly ConfirmAuthorizationService _ConfirmAuthorizationService;
+        private readonly IPaymentProcessorService _PaymentProcessorService = null!;
+        
+        // Background Service
+        private readonly OperationService _OperationService = null!;
 
-        // DB Repositories
-        private readonly IOperationActionRepository _OperationActionRepository;
-        private readonly IOperationLogRepository _OperationLogRepository;
-        private readonly IOperationPendingRepository _OperationPendingRepository;
-        private readonly IOperationStatusRepository _OperationStatusRepository;
-
-        public AuthorizationBL() { }
+        public AuthorizationBL () { }
         public AuthorizationBL(IPaymentProcessorService PaymentProcessorService, 
-                               ConfirmAuthorizationService ConfirmAuthorizationService,
-                               IOperationActionRepository OperationActionRepository,
-                               IOperationLogRepository OperationLogRepository,
-                               IOperationPendingRepository OperationPendingRepository,
-                               IOperationStatusRepository OperationStatusRepository
+                               OperationService OperationService
                               )
         {
             _PaymentProcessorService = PaymentProcessorService;
-            _ConfirmAuthorizationService = ConfirmAuthorizationService;
-
-            _OperationActionRepository = OperationActionRepository;
-            _OperationLogRepository = OperationLogRepository;
-            _OperationPendingRepository = OperationPendingRepository;
-            _OperationStatusRepository = OperationStatusRepository;
-
+            _OperationService = OperationService;
         }
         #region Entrypoints
         public async Task<AuthorizationResponse> Payment(AuthorizationRequest request)
@@ -51,88 +36,37 @@ namespace ClientAuthorization.BusinessLogic
             var requestService = new AuthorizationRequestAPI(request);
             var response = await _PaymentProcessorService.Authorize(requestService);
 
-            // OperationLog -> Approved - Denied
-            var operation = LogOperation(request, response, OperationActionEnum.PAY);
             if (response.Authorized && ClientNeedsValidation(request.ClientType))
             {
-                SetOperationPendingConfirmation(operation);
+                _ = _OperationService.LogPendingConfirmation(request, response, OperationActionEnum.PAY);
+            }
+            else
+            {
+                _ = _OperationService.Log(request, response, OperationActionEnum.PAY);
             }
 
-            return new AuthorizationResponse(response, operation.OperationId.ToString());
+            return new AuthorizationResponse(response);
         }
         public void Reverse(string id)
         {
-            var op = FindPendingOperationDB(id);
-            
-            // Update log
-            op.Operation.OperationStatus = OperationStatusEnum.DEN.ToString();
-            op.Operation.OperationAction = OperationActionEnum.REV.ToString();
-            _OperationLogRepository.Update(op.Operation);
-
-            // Delete from pending table
-            _OperationPendingRepository.Delete(op);
-
-            Console.WriteLine("Operation to reverse: " + op.Operation.OperationId);
-        }
-
-        private OperationPending FindPendingOperationDB(string id)
-        {
-            var op = _OperationPendingRepository.Find(x => x.OperationId.ToString() == id, x => x.Operation).FirstOrDefault();
-            return op ?? throw new Exception("Operation not found"); ;
+            _OperationService.ReverseOperation(id);
         }
 
         public ConfirmationResponse Confirm(string id)
         {
-            // Remove from cron
-            var operation = _ConfirmAuthorizationService.RemoveOperation(id);
-            if (operation != null)
-            {
-                // Write in database log table
-                UpdateLogOperationById(id, OperationStatusEnum.AUT);
-
-                // Remove from pending confirmation table
-                var op = _OperationPendingRepository.Find(x => x.OperationId.ToString() == id).FirstOrDefault();
-                _OperationPendingRepository.Delete(op);
-
-                return new ConfirmationResponse(op.Operation);
-            }
-            throw new Exception($"Operation not found. Id {id}");
+            var operation = _OperationService.ConfirmOperation(id);
+            return new ConfirmationResponse(operation);
         }
 
         public void Return()
         {
             throw new NotImplementedException();
         }
+        public List<PendingOperationResponse> GetPendingOperations()
+        {
+           return _OperationService.GetPendingOperations().ConvertAll(x => new PendingOperationResponse(x));
+        }
 #endregion
-
-        private OperationLog LogOperation(AuthorizationRequest request, AuthorizationResponseAPI response, OperationActionEnum action)
-        {
-            OperationStatusEnum status = response.Authorized ? OperationStatusEnum.AUT : OperationStatusEnum.DEN;
-            var operation = OperationLogMapper.Map(request, status, action);
-
-            _OperationLogRepository.Create(operation);
-            return operation;
-        }
-        private void UpdateLogOperationById(string id, OperationStatusEnum status)
-        {
-            var op = _OperationLogRepository.Find(x => x.OperationId.ToString() == id).FirstOrDefault();
-            op.OperationStatus = status.ToString();
-
-            _OperationLogRepository.Update(op);
-        }
-
-        private void SetOperationPendingConfirmation(OperationLog operation)
-        {
-            operation.OperationStatus = OperationStatusEnum.PEN.ToString();
-            _OperationLogRepository.Update(operation);
-
-            // add to queue to keep track - Add to pending log
-            _ConfirmAuthorizationService.AddOperation(operation.OperationId.ToString(), operation, DateTime.Now.AddSeconds(45));
-
-            var log = OperationPendingMapper.Map(operation.OperationId);
-            _OperationPendingRepository.Create(log);
-        }
-
         private bool ClientNeedsValidation(string? clientType) => clientType == "2";
 
     }

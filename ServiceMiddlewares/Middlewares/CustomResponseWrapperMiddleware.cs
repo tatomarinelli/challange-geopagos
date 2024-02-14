@@ -15,7 +15,7 @@ namespace ServiceMiddlewares.Middlewares
             // Using MemoryStream to hold Controller Response
             using var memoryStream = new MemoryStream();
             context.Response.Body = memoryStream;
-        
+
             // Passing call to Controller
             await next(context);
 
@@ -30,15 +30,16 @@ namespace ServiceMiddlewares.Middlewares
 
 
             // Deserializing Controller Response to an object
-            BaseResponse? result = JsonConvert.DeserializeObject<BaseResponse?>(readToEnd);
+            
             object? unhandledResult = JsonConvert.DeserializeObject(readToEnd);
-
+            BaseResponse result = null;
             if (context.Response.StatusCode == StatusCodes.Status200OK)
             {
-                result = ResponseWrapManager.ResponseDataWrapper(unhandledResult);
+                result = ResponseWrapManager.ResponseDataWrapper(new object[] { unhandledResult });
             }
             else
             {
+                result = JsonConvert.DeserializeObject<BaseResponse?>(readToEnd);
                 // Unhandled error -> map to a new CustomError using an exception and reading the errors object from net response.
                 // Known response, we map the errors from the service to our wrapper.
                 if (result?.Error == null)

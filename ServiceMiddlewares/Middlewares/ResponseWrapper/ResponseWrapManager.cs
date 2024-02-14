@@ -9,7 +9,7 @@ namespace ServiceMiddlewares.Middlewares.ResponseWrapper
             return result;
         }
 
-        public static BaseResponse ResponseDataWrapper(object? result)
+        public static BaseResponse ResponseDataWrapper(object[] result)
         {
             var data = result;
             var response = new BaseResponse()

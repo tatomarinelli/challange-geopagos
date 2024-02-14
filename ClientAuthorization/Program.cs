@@ -9,12 +9,18 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddTransient<CustomResponseWrapperMiddleware>();
 builder.Services.AddTransient<CustomExceptionHandlerMiddleware>();
 
+
 builder.Services.AddHostedService<ConfirmAuthorizationService>();
 builder.Services.AddSingleton<ConfirmAuthorizationService>();
 builder.Services.AddSingleton<IHostedService>(p => p.GetRequiredService<ConfirmAuthorizationService>());
 
+builder.Services.AddHostedService<OperationService>();
+builder.Services.AddSingleton<OperationService>();
+builder.Services.AddSingleton<IHostedService>(p => p.GetRequiredService<OperationService>());
 
 builder.Services.RegisterModules();
+
+
 builder.Services.AddProblemDetails();
 // Add services to the container.
 

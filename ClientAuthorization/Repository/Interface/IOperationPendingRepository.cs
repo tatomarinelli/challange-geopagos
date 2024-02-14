@@ -6,5 +6,6 @@ namespace ClientAuthorization.Repository.Interface
 {
     public interface IOperationPendingRepository : ICrudRepositoryBase<OperationPending>, IModule
     {
+        public List<OperationPending> GetAllOperations();
     }
 }

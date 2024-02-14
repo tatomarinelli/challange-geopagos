@@ -4,6 +4,8 @@ using ClientAuthorization.BusinessLogic.Interface;
 using ClientAuthorization.DTOs.RequestEntities;
 using ClientAuthorization.DTOs.ResponseEntities;
 using ClientAuthorization.BusinessLogic;
+using ClientAuthorization.Models.Database;
+using Newtonsoft.Json;
 
 namespace ClientAuthorization.Controllers
 {
@@ -28,6 +30,12 @@ namespace ClientAuthorization.Controllers
         public ConfirmationResponse Confirm([FromBody] string id)
         {
             return _AuthorizationBL.Confirm(id);
+        }
+
+        [HttpGet]
+        public List<PendingOperationResponse> GetPendingOperations()
+        {
+            return _AuthorizationBL.GetPendingOperations();
         }
         /*
         [HttpPost]

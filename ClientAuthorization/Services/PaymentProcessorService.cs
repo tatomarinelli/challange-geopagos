@@ -30,7 +30,7 @@ namespace ClientAuthorization.Services
             };
 
             var result = await Execute<ApiResponseBase<AuthorizationResponseAPI>, AuthorizationRequestAPI>(requestAPI);
-            return result.Data;
+            return result.Data.FirstOrDefault();
         }
     }
 }
