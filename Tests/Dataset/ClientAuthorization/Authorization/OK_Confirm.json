@@ -1,7 +1,7 @@
 ﻿{
   "data": [
     {
-      "clientID": "string",
+      "clientID": "aa-bb-cc",
       "clientType": "2",
       "cardData": {
         "holderName": "string",
@@ -11,37 +11,7 @@
         "expirationDate": "2024-01-30T19:51:09.413Z"
       },
       "transactionData": {
-        "amount": 0,
-        "date": "2024-01-30T19:51:09.413Z"
-      }
-    },
-    {
-      "clientID": "string",
-      "clientType": "2",
-      "cardData": {
-        "holderName": "string",
-        "type": "string",
-        "number": "string",
-        "cvc": "string",
-        "expirationDate": "2024-01-30T19:51:09.413Z"
-      },
-      "transactionData": {
-        "amount": 150.00,
-        "date": "2024-01-30T19:51:09.413Z"
-      }
-    },
-    {
-      "clientID": "string",
-      "clientType": "2",
-      "cardData": {
-        "holderName": "string",
-        "type": "string",
-        "number": "string",
-        "cvc": "string",
-        "expirationDate": "2024-01-30T19:51:09.413Z"
-      },
-      "transactionData": {
-        "amount": 150.0000000000000,
+        "amount": 1500,
         "date": "2024-01-30T19:51:09.413Z"
       }
     }

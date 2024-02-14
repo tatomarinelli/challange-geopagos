@@ -14,13 +14,19 @@ namespace Tests.ClientAuthorization.AuthorizationTests
         public async Task<ConfirmationResponse?> Confirm_OK(AuthorizationRequest requestToAuthorize)
         {
             var response = await _authorizationController.Payment(requestToAuthorize);
-            ConfirmationResponse confirmed = null;
+            ConfirmationResponse confirmed = null!;
+            Task.Delay(TimeSpan.FromSeconds(1)).Wait();
             if (response.Authorized)
             {
-                confirmed = _authorizationController.Confirm(response.OperationId);
+                var pendingOp = _authorizationController.GetPendingOperations();
+                Task.Delay(TimeSpan.FromSeconds(1)).Wait();
+                string id = pendingOp.Find(x => x.ClientId == requestToAuthorize.ClientID &&
+                                             x.TransactionAmount == requestToAuthorize.TransactionData.Amount).OperationId;
+                Task.Delay(TimeSpan.FromSeconds(1)).Wait(); 
+                confirmed = _authorizationController.Confirm(id);
             }
 
-            Assert.True(confirmed?.Operation?.OperationStatus == OperationStatusEnum.AUT.ToString());
+            Assert.True(confirmed.Operation?.OperationStatus == OperationStatusEnum.AUT.ToString());
             return confirmed;
         }
 
