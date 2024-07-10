@@ -1,5 +1,6 @@
 
 # Challenge Payments - Geopagos - 2024
+[Enunciado](Challenge Payments - Geopagos - 2024.pdf)
 
 El proyecto consiste en dos microservicios, ClientAuthorization (El publico hacia el cliente) y PaymentProccesor (Servicio interno simulando procesador de pago)
 
